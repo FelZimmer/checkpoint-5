@@ -1,4 +1,6 @@
-export default function AgentCard({ nome, icone, aoClicar }) {
+import Link from "next/link";
+
+export default function AgentCard({ id, nome, icone, aoClicar }) {
   const linhas = [nome];
   return (
     <article
@@ -7,10 +9,12 @@ export default function AgentCard({ nome, icone, aoClicar }) {
         aoClicar(nome);
       }}
     >
-      <img src={icone} alt={nome} />
-      {linhas.map(function (texto) {
-        return <strong key={texto}>{texto}</strong>;
-      })}
+      <Link href={"/details/" + id}>
+        <img src={icone} alt={nome} />
+        {linhas.map(function (texto) {
+          return <strong key={texto}>{texto}</strong>;
+        })}
+      </Link>
     </article>
   );
 }
