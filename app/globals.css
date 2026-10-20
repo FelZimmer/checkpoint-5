@@ -18,15 +18,31 @@ h1 {
   margin: 0 0 8px;
 }
 
-ul {
+.topo {
+  padding: 16px 24px;
+  background: #1a1d27;
+  border-bottom: 1px solid #2c3142;
+}
+
+.topo p {
+  margin: 0;
+  color: #9aa3b8;
+  font-size: 13px;
+}
+
+.topo strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 22px;
+}
+
+.lista {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 12px;
-  padding: 0;
-  list-style: none;
 }
 
-li {
+.card {
   background: #1c2030;
   border: 1px solid #2e3448;
   border-radius: 8px;
@@ -34,9 +50,18 @@ li {
   cursor: pointer;
 }
 
-li img {
+.card img {
   width: 72px;
   height: 72px;
   object-fit: contain;
   display: block;
+}
+
+.card strong {
+  display: block;
+  margin-top: 8px;
+}
+
+.loading {
+  color: #9aa3b8;
 }

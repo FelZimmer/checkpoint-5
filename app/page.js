@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import AgentList from "../components/AgentList";
+import LoadingState from "../components/LoadingState";
 
 function ordenarPorNome(lista) {
   const copia = lista.slice();
@@ -66,23 +68,9 @@ export default function Home() {
       </h1>
       <p>{total} na lista</p>
       {clicado ? <p>selecionado: {clicado}</p> : null}
-      {loading ? <p>carregando...</p> : null}
+      {loading ? <LoadingState mensagem="carregando..." /> : null}
       {erro ? <p>{erro}</p> : null}
-      <ul>
-        {agentes.map(function (item) {
-          return (
-            <li
-              key={item.uuid}
-              onClick={function () {
-                aoClicar(item.displayName);
-              }}
-            >
-              <img src={item.displayIcon} alt={item.displayName} />
-              <span>{item.displayName}</span>
-            </li>
-          );
-        })}
-      </ul>
+      <AgentList lista={agentes} aoClicar={aoClicar} />
     </main>
   );
 }
