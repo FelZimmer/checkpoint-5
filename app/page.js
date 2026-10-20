@@ -30,6 +30,8 @@ export default function Home() {
   const [erro, setErro] = useState("");
   // serve para guardar o texto digitado na busca
   const [busca, setBusca] = useState("");
+  // guarda o nome do último agente clicado
+  const [clicado, setClicado] = useState("");
 
   // referência direta pro input da busca para focar nele 
   const buscaRef = useRef(null);
@@ -75,6 +77,8 @@ export default function Home() {
     setBusca(texto);
   }, []);
 
+
+
   // useMemo: só recalcula a lista filtrada quando "agentes" ou "busca" mudam,
   // evitando refazer o filtro em renderizações que não têm a ver com isso
   const filtrados = useMemo(
@@ -105,7 +109,8 @@ export default function Home() {
         <p>Nenhum agente encontrado.</p>
       ) : null}
 
-      <AgentList lista={filtrados} />
+      {clicado ? <p>selecionado: {clicado}</p> : null}
+      <AgentList lista={filtrados} aoClicar={aoClicar} />
     </main>
   );
 }
