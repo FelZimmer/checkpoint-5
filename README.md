@@ -7,11 +7,10 @@ npm run dev
 
 Abre http://localhost:3000
 
-A home lista os agentes da API do Valorant. O card leva para `/details/[id]` e mostra o id.
+A home lista os agentes da API do Valorant. O card abre `/details/[id]` e busca esse agente com axios.
 
 Ainda falta:
 
-- buscar o agente em `/details/[id]` com axios
 - mais componentes, até passar de 6
 - comentarios nos hooks
 - busca e cache no localStorage
