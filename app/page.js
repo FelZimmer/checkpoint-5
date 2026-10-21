@@ -71,16 +71,16 @@ export default function Home() {
     setClicado(nome);
   }, []);
 
-    // useCallback: guarda a função entre renderizações, mantendo a mesma referência.
-  // Ela atualiza o estado "busca" e é passada por prop ao SearchBar.
+    // useCallback eh ele que guarda a função entre renderizações assim mantendo a mesma referência
+  // atualiza o estado busca e é passada por prop ao SearchBar
   const aoMudarBusca = useCallback(function (texto) {
     setBusca(texto);
   }, []);
 
 
 
-  // useMemo: só recalcula a lista filtrada quando "agentes" ou "busca" mudam,
-  // evitando refazer o filtro em renderizações que não têm a ver com isso
+  // com o useMemo ele só recalcula a lista filtrada quando agentes ou busca mudam assim evitando refazer o filtro em renderizações que não têm a ver com isso
+  // 
   const filtrados = useMemo(
     function () {
       const termo = busca.toLowerCase();
