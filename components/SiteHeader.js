@@ -1,4 +1,4 @@
-// cica no layout.js, por isso aparece em todas as páginas de lista e detalhes.
+// fica no layout, então aparece na lista e no detalhe
 
 export default function SiteHeader() {
   return (

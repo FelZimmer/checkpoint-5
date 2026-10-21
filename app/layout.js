@@ -1,7 +1,7 @@
 import "./globals.css";
 import SiteHeader from "../components/SiteHeader";
 
-// metadata é um nome reservado do next ele lê essa exportação sozinho.
+// título da aba do navegador
 export const metadata = { title: "Agentes Valorant" };
 
 export default function RootLayout({ children }) {

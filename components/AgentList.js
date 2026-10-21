@@ -1,25 +1,25 @@
 import AgentCard from "./AgentCard";
 
 export default function AgentList({ lista, aoClicar }) {
-  // Array que vai acumular um AgentCard para cada agente
+  // cards que vão pra tela
   const cards = [];
 
-  // Percorre a lista e cria um card por agente
+  // um card pra cada agente
   for (let i = 0; i < lista.length; i++) {
     const item = lista[i];
     cards.push(
       <AgentCard
-        // key utilizamos para ser o identificador unico que que o react exige em listas 
+        // uuid, porque o nome pode repetir
         key={item.uuid}
         id={item.uuid}
         nome={item.displayName}
         icone={item.displayIcon}
-        // repassa a função recebida do pai para o filho
+        // o clique do card volta pra home
         aoClicar={aoClicar}
       />
     );
   }
 
-  // Devolve a seção contendo todos os cards
+  // a fileira de cards
   return <section className="lista">{cards}</section>;
 }

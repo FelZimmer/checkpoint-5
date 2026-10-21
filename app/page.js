@@ -22,41 +22,41 @@ function ordenarPorNome(lista) {
 }
 
 export default function Home() {
-  // ele esta guardando a lista de agentes que vem da api
+  // lista que a api me devolveu
   const [agentes, setAgentes] = useState([]);
-  // Para fazer o controle se a requisição ainda está em andamento
+  // ainda to esperando a resposta
   const [loading, setLoading] = useState(true);
-  // guarda a mensagem de erro 
+  // se a api falhar, a frase fica aqui
   const [erro, setErro] = useState("");
-  // serve para guardar o texto digitado na busca
+  // o que eu digitei na busca
   const [busca, setBusca] = useState("");
-  // guarda o nome do último agente clicado
+  // ultimo agente que eu cliquei
   const [clicado, setClicado] = useState("");
 
-  // referência direta pro input da busca para focar nele 
+  // o input da busca, pra eu focar quando a home abre
   const buscaRef = useRef(null);
 
-  // useEffect com [] roda uma vez, ai ela foca o campo de busca
+  // abri a home, foco a busca
   useEffect(function () {
     if (buscaRef.current) {
       buscaRef.current.focus();
     }
   }, []);
 
-// useEffect com [] roda uma vez quando nos montamos a busca dos agentes na API com o axios
+  // abri a home, puxo os agentes
   useEffect(function () {
     async function carregar() {
       try {
         const res = await axios.get(
           "https://valorant-api.com/v1/agents?isPlayableCharacter=true&language=pt-BR"
         );
-        // no Valorant a lista vem em res.data.data
+        // a lista vem dentro de res.data.data
         setAgentes(ordenarPorNome(res.data.data));
       } catch {
-        // se a requisição falhar, entao guardamos a mensagem para exibir na tela
+        // api falhou, mostro essa frase
         setErro("Não deu para carregar os agentes.");
       } finally {
-        // finally roda com sucesso ou erro em qualquer dos casos o loading acaba
+        // acabou a espera, deu certo ou não
         setLoading(false);
       }
     }
@@ -71,16 +71,12 @@ export default function Home() {
     setClicado(nome);
   }, []);
 
-    // useCallback eh ele que guarda a função entre renderizações assim mantendo a mesma referência
-  // atualiza o estado busca e é passada por prop ao SearchBar
+  // cada letra que eu digito atualiza a busca
   const aoMudarBusca = useCallback(function (texto) {
     setBusca(texto);
   }, []);
 
-
-
-  // com o useMemo ele só recalcula a lista filtrada quando agentes ou busca mudam assim evitando refazer o filtro em renderizações que não têm a ver com isso
-  // 
+  // filtro de novo só se a lista ou o texto da busca mudar
   const filtrados = useMemo(
     function () {
       const termo = busca.toLowerCase();
@@ -95,16 +91,16 @@ export default function Home() {
     <main>
       <h1>Agentes</h1>
 
-      {/* a busca mora aqui na home e desce por props */}
+      {/* campo de busca; o texto sobe pra cá */}
       <SearchBar valor={busca} aoMudar={aoMudarBusca} inputRef={buscaRef} />
 
       <p>{filtrados.length} na lista</p>
 
-      {/* só aparece se condição for verdadeira */}
+      {/* some quando a api responde */}
       {loading ? <LoadingState mensagem="carregando..." /> : null}
       {erro ? <ErrorState mensagem={erro} /> : null}
 
-      {/* Eh mensagem para quando a busca não encontra nada */}
+      {/* busquei e não achei nenhum nome */}
       {!loading && !erro && filtrados.length === 0 ? (
         <p>Nenhum agente encontrado.</p>
       ) : null}
