@@ -6,6 +6,7 @@ import AgentList from "../components/AgentList";
 import LoadingState from "../components/LoadingState";
 import ErrorState from "../components/ErrorState";
 import SearchBar from "../components/SearchBar";
+import { lerAgentesSalvos, salvarAgentes } from "../lib/agentesSalvos";
 
 function ordenarPorNome(lista) {
   const copia = lista.slice();
@@ -32,6 +33,8 @@ export default function Home() {
   const [busca, setBusca] = useState("");
   // ultimo agente que eu cliquei
   const [clicado, setClicado] = useState("");
+  // true quando a api falhou e eu mostrei a lista salva
+  const [semRede, setSemRede] = useState(false);
 
   // o input da busca, pra eu focar quando a home abre
   const buscaRef = useRef(null);
@@ -43,18 +46,32 @@ export default function Home() {
     }
   }, []);
 
-  // abri a home, puxo os agentes
+  // abri a home: se já salvei a lista, mostro ela e tento atualizar
   useEffect(function () {
+    const salvos = ordenarPorNome(lerAgentesSalvos());
+    if (salvos.length > 0) {
+      setAgentes(salvos);
+      setLoading(false);
+    }
+
     async function carregar() {
       try {
         const res = await axios.get(
           "https://valorant-api.com/v1/agents?isPlayableCharacter=true&language=pt-BR"
         );
         // a lista vem dentro de res.data.data
-        setAgentes(ordenarPorNome(res.data.data));
+        const lista = ordenarPorNome(res.data.data);
+        setAgentes(lista);
+        salvarAgentes(lista);
+        setErro("");
+        setSemRede(false);
       } catch {
-        // api falhou, mostro essa frase
-        setErro("Não deu para carregar os agentes.");
+        // api falhou. se eu tinha lista salva, fico com ela
+        if (salvos.length === 0) {
+          setErro("Não deu para carregar os agentes.");
+        } else {
+          setSemRede(true);
+        }
       } finally {
         // acabou a espera, deu certo ou não
         setLoading(false);
@@ -95,6 +112,7 @@ export default function Home() {
       <SearchBar valor={busca} aoMudar={aoMudarBusca} inputRef={buscaRef} />
 
       <p>{filtrados.length} na lista</p>
+      {semRede ? <p>sem rede, to mostrando a lista salva</p> : null}
 
       {/* some quando a api responde */}
       {loading ? <LoadingState mensagem="carregando..." /> : null}
