@@ -2,7 +2,7 @@
 
 Aplicação feita em **Next.js** (App Router) para o Checkpoint #5 de Web Development. Ela lista os agentes jogáveis da [API do Valorant](https://valorant-api.com/) e permite abrir a página de detalhes de cada um.
 
-🌐 **Deploy:** https://SEU-PROJETO.vercel.app
+🌐 **Deploy:** [checkpoint-5-webdev-1-esr-kohl.vercel.app](https://checkpoint-5-webdev-1-esr-kohl.vercel.app)
 
 👥 **Integrantes:** veja o arquivo [`participantes.md`](./participantes.md)
 
